@@ -1,4 +1,4 @@
-package online.rudal.cloud.fileserver.config;
+package ru.rudal.cloud.fileserver.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

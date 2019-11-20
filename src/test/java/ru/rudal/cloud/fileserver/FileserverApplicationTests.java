@@ -1,4 +1,4 @@
-package online.rudal.cloud.fileserver;
+package ru.rudal.cloud.fileserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

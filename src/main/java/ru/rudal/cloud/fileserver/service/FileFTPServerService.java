@@ -1,4 +1,4 @@
-package online.rudal.cloud.fileserver.service;
+package ru.rudal.cloud.fileserver.service;
 
 import org.apache.ftpserver.FtpServer;
 import org.springframework.stereotype.Service;

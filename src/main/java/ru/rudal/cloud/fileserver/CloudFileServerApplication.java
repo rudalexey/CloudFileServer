@@ -1,4 +1,4 @@
-package online.rudal.cloud.fileserver;
+package ru.rudal.cloud.fileserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

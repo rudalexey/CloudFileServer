@@ -1,4 +1,4 @@
-package online.rudal.cloud.fileserver.config;
+package ru.rudal.cloud.fileserver.config;
 
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
@@ -33,8 +33,23 @@ public class FTPServerConfiguration {
         listenerFactory.setPort(21);
         serverFactory.addListener("default", listenerFactory.createListener());
         DbUserManagerFactory managerFactory = new DbUserManagerFactory();
-        managerFactory.setDataSource(dataSource);
-        managerFactory.setPasswordEncryptor(new Md5PasswordEncryptor());
+		managerFactory.setDataSource(dataSource);
+		managerFactory
+				.setSqlUserInsert("INSERT INTO FTP_USER (userid, userpassword, homedirectory, enableflag, writepermission, idletime, uploadrate, downloadrate, maxloginnumber, maxloginperip) VALUES ('{userid}', '{userpassword}', '{homedirectory}', {enableflag}, {writepermission}, {idletime}, {uploadrate}, {downloadrate}, {maxloginnumber}, {maxloginperip})");
+		managerFactory
+				.setSqlUserUpdate("UPDATE FTP_USER SET userpassword='{userpassword}',homedirectory='{homedirectory}',enableflag={enableflag},writepermission={writepermission},idletime={idletime},uploadrate={uploadrate},downloadrate={downloadrate},maxloginnumber={maxloginnumber}, maxloginperip={maxloginperip} WHERE userid='{userid}'");
+		managerFactory
+				.setSqlUserDelete("DELETE FROM FTP_USER WHERE userid = '{userid}'");
+		managerFactory
+				.setSqlUserSelect("SELECT * FROM FTP_USER WHERE userid = '{userid}'");
+		managerFactory
+				.setSqlUserSelectAll("SELECT userid FROM FTP_USER ORDER BY userid");
+		managerFactory
+				.setSqlUserAuthenticate("SELECT userid, userpassword FROM FTP_USER WHERE userid='{userid}'");
+		managerFactory
+				.setSqlUserAdmin("SELECT userid FROM FTP_USER WHERE userid='{userid}' AND userid='admin'");
+
+		managerFactory.setPasswordEncryptor(new Md5PasswordEncryptor());
         UserManager createUserManager = managerFactory.createUserManager();
         serverFactory.setUserManager(createUserManager);
 
