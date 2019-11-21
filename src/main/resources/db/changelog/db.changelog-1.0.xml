@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+
+    <changeSet id="install-0" author="aleksey" dbms="h2,postgresql,oracle">
+        <createSequence sequenceName="hibernate_sequence" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="install-1" author="aleksey">
+        <createTable tableName="cfs_user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_user"/>
+            </column>
+            <column name="login" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locked" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="last_login" type="timestamp"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="VARCHAR(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="version" type="BIGINT DEFAULT 0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="cfs_role">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_role"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="cfs_privilege">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_privilege"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="cfs_users_roles">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="cfs_roles_privileges">
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="privilege_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="cfs_ftp_user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_ftp_user"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="home_directory" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enable_ftp" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="write_permission" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="idle_time" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="upload_rate" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="download_rate" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_login_number" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_login_per_ip" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_date" type="timestamp" defaultValueDate="now()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="VARCHAR(255)"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="version" type="BIGINT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="cfs_roles_privileges"
+                                 constraintName="fk_roles_privileges_role_id" deferrable="false"
+                                 initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="cfs_role"/>
+        <addForeignKeyConstraint baseColumnNames="privilege_id" baseTableName="cfs_roles_privileges"
+                                 constraintName="fk_roles_privileges_privilege_id" deferrable="false"
+                                 initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="cfs_privilege"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="cfs_users_roles"
+                                 constraintName="fk_users_roles_user_id" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="cfs_user"/>
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="cfs_users_roles"
+                                 constraintName="fk_users_roles_role_id" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="cfs_role"/>
+
+
+    </changeSet>
+    <changeSet id="init-2" author="aleksey">
+        <insert tableName="cfs_user">
+            <column name="email" value="${user_admin_mail}"/>
+            <column name="login" value="${user_admin_name}"/>
+            <column name="password" value="${user_admin_name}"/>
+            <column name="locked" value="N"/>
+            <column name="enabled" value="Y"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" value="now()"/>
+        </insert>
+    </changeSet>
+    <changeSet id="init-3" author="aleksey">
+        <insert tableName="cfs_role">
+            <column name="name" value="SUPERVISOR"/>
+        </insert>
+        <insert tableName="cfs_role">
+            <column name="name" value="ADMIN"/>
+        </insert>
+        <insert tableName="cfs_role">
+            <column name="name" value="FTP_ADMIN"/>
+        </insert>
+        <insert tableName="cfs_role">
+            <column name="name" value="USER_MANAGER"/>
+        </insert>
+        <insert tableName="cfs_role">
+            <column name="name" value="USER"/>
+        </insert>
+        <insert tableName="cfs_role">
+            <column name="name" value="GUEST"/>
+        </insert>
+    </changeSet>
+    <changeSet id="init-4" author="aleksey">
+        <insert tableName="cfs_privilege">
+            <column name="name" value="ALL"/>
+        </insert>
+        <insert tableName="cfs_privilege">
+            <column name="name" value="READ"/>
+        </insert>
+        <insert tableName="cfs_privilege">
+            <column name="name" value="ADD"/>
+        </insert>
+        <insert tableName="cfs_privilege">
+            <column name="name" value="UPDATE"/>
+        </insert>
+        <insert tableName="cfs_privilege">
+            <column name="name" value="DELETE"/>
+        </insert>
+    </changeSet>
+    <changeSet id="init-5" author="aleksey">
+        <insert tableName="cfs_users_roles">
+            <column name="user_id" valueComputed="(SELECT id from cfs_user where login='${user_admin_name}')"/>
+            <column name="role_id" valueComputed="(SELECT id from cfs_role where name='SUPERVISOR')"/>
+        </insert>
+        <insert tableName="cfs_roles_privileges">
+            <column name="role_id" valueComputed="(SELECT id from cfs_role where name='SUPERVISOR')"/>
+            <column name="privilege_id" valueComputed="(SELECT id from cfs_privilege where name='ALL')"/>
+        </insert>
+    </changeSet>
+    <changeSet id="init-6" author="aleksey" >
+        <insert tableName="cfs_ftp_user">
+            <column name="user_id" valueComputed="(SELECT id from cfs_user where login='${user_admin_name}')"/>
+            <column name="home_directory" value="${user_admin_ftp_home_dir}"/>
+            <column name="enable_ftp" value="${user_admin_ftp_enable}"/>
+            <column name="write_permission" value="Y"/>
+            <column name="created_by" value="system"/>
+            <column name="created_date" value="now()"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

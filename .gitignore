@@ -4,6 +4,8 @@ target/
 !**/src/main/**
 !**/src/test/**
 .mvn
+application.properties
+logs
 
 ### STS ###
 .apt_generated
