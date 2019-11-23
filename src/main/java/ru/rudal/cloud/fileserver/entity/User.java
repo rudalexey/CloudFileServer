@@ -7,13 +7,16 @@ import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 /**
  * @author Aleksey Rud
@@ -57,7 +60,6 @@ public class User extends AuditTable implements UserDetails {
 					name = "user_id", referencedColumnName = "id"),
 			inverseJoinColumns = @JoinColumn(
 					name = "role_id", referencedColumnName = "id"))
-	@Fetch(FetchMode.SUBSELECT)
 	private Collection<Role> roles;
 
 	@OneToOne(fetch = FetchType.LAZY,orphanRemoval = true, cascade = CascadeType.REMOVE,mappedBy = "user")
@@ -65,7 +67,9 @@ public class User extends AuditTable implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return Objects.isNull(roles)?null:roles.stream()
+				.map(role -> new SimpleGrantedAuthority(role.getName()))
+				.collect(Collectors.toList());
 	}
 
 	@Override

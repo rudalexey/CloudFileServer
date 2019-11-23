@@ -10,5 +10,4 @@ public class CloudFileServerApplication {
 		SpringApplication.run(CloudFileServerApplication.class, args);
 	}
 
-
 }

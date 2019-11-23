@@ -3,23 +3,23 @@ package ru.rudal.cloud.fileserver.config;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.filesystem.nativefs.NativeFileSystemFactory;
-import org.apache.ftpserver.ftplet.FtpException;
-import org.apache.ftpserver.ftplet.UserManager;
+import org.apache.ftpserver.ftplet.*;
 import org.apache.ftpserver.listener.ListenerFactory;
+import org.apache.ftpserver.usermanager.UserManagerFactory;
+import org.apache.ftpserver.usermanager.UsernamePasswordAuthentication;
+import org.apache.ftpserver.usermanager.impl.AbstractUserManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.rudal.cloud.fileserver.repository.FtpUserRepository;
-import ru.rudal.cloud.fileserver.service.CustomDbUserManagerFactory;
-
-import javax.sql.DataSource;
 
 @Configuration
 public class FTPServerConfiguration {
     private final FtpUserRepository ftpUserRepository;
-    private FtpServer ftpServer;
     @Value("${file-server.ftp.enable}")
     boolean isFTPEnable;
+    private FtpServer ftpServer;
+
     public FTPServerConfiguration(FtpUserRepository ftpUserRepository) {
         this.ftpUserRepository = ftpUserRepository;
     }
@@ -29,7 +29,7 @@ public class FTPServerConfiguration {
         ListenerFactory listenerFactory = new ListenerFactory();
         listenerFactory.setPort(21);
         serverFactory.addListener("default", listenerFactory.createListener());
-        CustomDbUserManagerFactory managerFactory = new CustomDbUserManagerFactory(ftpUserRepository);
+        CustomDbUserManagerFactory managerFactory = new CustomDbUserManagerFactory();
 		/*managerFactory.setDataSource(dataSource);
 		managerFactory
 				.setSqlUserInsert("INSERT INTO FTP_USER (userid, userpassword, homedirectory, enableflag, writepermission, idletime, uploadrate, downloadrate, maxloginnumber, maxloginperip) VALUES ('{userid}', '{userpassword}', '{homedirectory}', {enableflag}, {writepermission}, {idletime}, {uploadrate}, {downloadrate}, {maxloginnumber}, {maxloginperip})");
@@ -59,11 +59,50 @@ public class FTPServerConfiguration {
 
     @Bean
     public FtpServer ftpServer() throws FtpException {
-//        FtpServerFactory serverFactory = new FtpServerFactory();
-//        ftpServer = serverFactory.createServer();
         ftpServer = createServer();
-        if(isFTPEnable)ftpServer.start();
+        if (isFTPEnable) ftpServer.start();
         return ftpServer;
     }
 
- }
+    class CustomDbUserManagerFactory implements UserManagerFactory {
+        @Override
+        public UserManager createUserManager() {
+            return new CustomDbUserManager();
+        }
+    }
+
+    private class CustomDbUserManager extends AbstractUserManager {
+
+        @Override
+        public User getUserByName(String s) throws FtpException {
+            return ftpUserRepository.getFtpUserByUser_Username(s);
+        }
+
+        @Override
+        public String[] getAllUserNames() throws FtpException {
+            return new String[0];
+        }
+
+        @Override
+        public void delete(String s) throws FtpException {
+            ftpUserRepository.deleteById(Long.parseLong(s));
+        }
+
+        @Override
+        public void save(User user) throws FtpException {
+        }
+
+        @Override
+        public boolean doesExist(String s) throws FtpException {
+            return false;
+        }
+
+        @Override
+        public User authenticate(Authentication authentication) throws AuthenticationFailedException {
+
+            UsernamePasswordAuthentication passwordAuthentication = (UsernamePasswordAuthentication) authentication;
+            return ftpUserRepository.getFtpUserByUser_Username(passwordAuthentication.getUsername());
+        }
+    }
+
+}
