@@ -20,6 +20,15 @@
             <column name="password" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
+            <column name="first_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lang_key" type="VARCHAR(10)" defaultValue="ru">
+                <constraints nullable="false"/>
+            </column>
             <column name="locked" type="CHAR(1)">
                 <constraints nullable="false"/>
             </column>
@@ -135,6 +144,9 @@
         <insert tableName="cfs_user">
             <column name="email" value="${user_admin_mail}"/>
             <column name="login" value="${user_admin_name}"/>
+            <column name="first_name" value="${user_admin_name}"/>
+            <column name="last_name" value="${user_admin_name}"/>
+            <column name="lang_key" value="ru"/>
             <column name="password" value="${user_admin_name}"/>
             <column name="locked" value="N"/>
             <column name="enabled" value="Y"/>

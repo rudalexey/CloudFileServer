@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import ru.rudal.cloud.fileserver.security.jwt.AuthenticationJwtTokenFilter;
 import ru.rudal.cloud.fileserver.security.jwt.CustomAuthenticationEntryPoint;
 import ru.rudal.cloud.fileserver.security.jwt.JwtUtils;
-import ru.rudal.cloud.fileserver.service.CustomUserDetailsService;
+import ru.rudal.cloud.fileserver.security.service.CustomUserDetailsService;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(

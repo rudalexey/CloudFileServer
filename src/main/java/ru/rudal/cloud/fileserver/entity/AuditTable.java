@@ -1,5 +1,6 @@
 package ru.rudal.cloud.fileserver.entity;
 
+import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -15,7 +16,8 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class AuditTable {
+@Data
+public abstract class AuditTable {
 
     @CreatedBy
     @Column(name = "created_by")

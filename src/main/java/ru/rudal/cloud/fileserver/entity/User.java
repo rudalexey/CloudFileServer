@@ -1,6 +1,7 @@
 package ru.rudal.cloud.fileserver.entity;
 
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
@@ -29,7 +31,7 @@ import java.util.stream.Collectors;
 @Table(name = "cfs_user")
 public class User extends AuditTable implements UserDetails {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "login", nullable = false, unique = true)
@@ -40,6 +42,16 @@ public class User extends AuditTable implements UserDetails {
 
 	@Column(name = "email",unique = true,nullable = false)
 	private String email;
+	@Column(name = "first_name", nullable = false)
+	private String firstName;
+
+	@Column(name = "last_name", nullable = false)
+	private String lastName;
+
+	@Column(name = "lang_key", nullable = false)
+	@Basic(optional = false)
+	@Builder.Default()
+	private Locale langKey=Locale.forLanguageTag("ru");
 
 	@Column(name = "locked", nullable = false)
 	@Getter(AccessLevel.NONE)
@@ -60,6 +72,7 @@ public class User extends AuditTable implements UserDetails {
 					name = "user_id", referencedColumnName = "id"),
 			inverseJoinColumns = @JoinColumn(
 					name = "role_id", referencedColumnName = "id"))
+	@BatchSize(size = 20)
 	private Collection<Role> roles;
 
 	@OneToOne(fetch = FetchType.LAZY,orphanRemoval = true, cascade = CascadeType.REMOVE,mappedBy = "user")

@@ -18,6 +18,8 @@ public class FTPServerConfiguration {
     private final FtpUserRepository ftpUserRepository;
     @Value("${file-server.ftp.enable}")
     boolean isFTPEnable;
+	@Value("${file-server.ftp.port}")
+	int ftpPort;
     private FtpServer ftpServer;
 
     public FTPServerConfiguration(FtpUserRepository ftpUserRepository) {
@@ -27,7 +29,7 @@ public class FTPServerConfiguration {
     public FtpServer createServer() {
         FtpServerFactory serverFactory = new FtpServerFactory();
         ListenerFactory listenerFactory = new ListenerFactory();
-        listenerFactory.setPort(21);
+        listenerFactory.setPort(ftpPort);
         serverFactory.addListener("default", listenerFactory.createListener());
         CustomDbUserManagerFactory managerFactory = new CustomDbUserManagerFactory();
 		/*managerFactory.setDataSource(dataSource);

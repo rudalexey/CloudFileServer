@@ -17,7 +17,7 @@ import java.util.StringJoiner;
 @Table(name = "cfs_ftp_user")
 public class FtpUser extends AuditTable implements org.apache.ftpserver.ftplet.User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(fetch = FetchType.EAGER)
