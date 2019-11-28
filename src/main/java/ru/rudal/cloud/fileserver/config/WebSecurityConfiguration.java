@@ -1,6 +1,7 @@
 package ru.rudal.cloud.fileserver.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -10,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.*;
 import ru.rudal.cloud.fileserver.security.jwt.AuthenticationJwtTokenFilter;
 import ru.rudal.cloud.fileserver.security.jwt.CustomAuthenticationEntryPoint;
 import ru.rudal.cloud.fileserver.security.jwt.JwtUtils;
@@ -26,7 +27,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService detailsService;
     private final CustomAuthenticationEntryPoint unauthorizedHandler;
     private final JwtUtils jwtUtils;
-
     public WebSecurityConfiguration(CustomUserDetailsService detailsService, CustomAuthenticationEntryPoint unauthorizedHandler, JwtUtils jwtUtils) {
         this.detailsService = detailsService;
         this.unauthorizedHandler = unauthorizedHandler;
@@ -51,11 +51,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/v2/**").permitAll()
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/webjars/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/auth/login").permitAll()
+                //TODO Убрать позже Swagger без авторизации
+                .antMatchers("/v2/api-docs").permitAll()
+                .antMatchers(HttpMethod.GET,"/swagger/index.html","/swagger/*.css","/swagger/*.js","/swagger/*.png","/swagger/*.map").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

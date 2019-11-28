@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import ru.rudal.cloud.fileserver.repository.UserRepository;
+import ru.rudal.cloud.fileserver.security.service.CustomUserDetailsService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,9 +20,8 @@ import java.io.IOException;
 @Slf4j
 public class AuthenticationJwtTokenFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
-    private final UserDetailsService userDetailsService;
-
-    public AuthenticationJwtTokenFilter(UserDetailsService userDetailsService, JwtUtils jwtUtils) {
+    private final CustomUserDetailsService userDetailsService;
+    public AuthenticationJwtTokenFilter(CustomUserDetailsService userDetailsService, JwtUtils jwtUtils) {
         this.userDetailsService = userDetailsService;
         this.jwtUtils = jwtUtils;
     }

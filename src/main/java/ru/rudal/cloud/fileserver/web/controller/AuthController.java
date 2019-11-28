@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import ru.rudal.cloud.fileserver.entity.User;
 import ru.rudal.cloud.fileserver.security.jwt.JwtUtils;
 import ru.rudal.cloud.fileserver.web.dto.LoginRequest;
+import ru.rudal.cloud.fileserver.web.dto.UserDTO;
 
 import javax.validation.Valid;
 import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -36,6 +37,6 @@ public class AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         User userDetails = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(Map.of("token",jwt,"user",userDetails));
+        return ResponseEntity.ok(Map.of("token",jwt,"user",new UserDTO(userDetails)));
     }
 }

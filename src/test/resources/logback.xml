@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <logger name="ROOT" level="${logging.level.root}" />
+    <logger name="ru.rudal" level="INFO"/>
+    <logger name="ch.qos.logback" level="INFO"/>
+
+    <logger name="com.zaxxer.hikari.pool.HikariPool" level="WARN"/>
+    <logger name="org.hibernate.validator" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.hibernate.cfg" level="WARN"/>
+    <logger name="org.hibernate.stat" level="INFO"/>
+    <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
+    <logger name="org.hibernate.hql.internal.ast.QueryTranslatorImpl" level="WARN"/>
+    <logger name="org.hibernate.loader.entity.plan" level="WARN"/>
+    <logger name="org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter" level="WARN"/>
+
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework.web" level="WARN"/>
+    <logger name="sun.rmi" level="WARN"/>
+    <logger name="liquibase" level="WARN" />
+    <logger name="org.apache" level="WARN"/>
+    <logger name="javax.management.remote.rmi" level="WARN"/>
+    <logger name="com.sun" level="WARN"/>
+
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>

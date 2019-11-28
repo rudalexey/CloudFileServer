@@ -147,7 +147,7 @@
             <column name="first_name" value="${user_admin_name}"/>
             <column name="last_name" value="${user_admin_name}"/>
             <column name="lang_key" value="ru"/>
-            <column name="password" value="${user_admin_name}"/>
+            <column name="password" value="$2a$10$NwFbbobQuU/LhOmJCUx.EeRbEIq.g/dDX7nCzjMYcVB0ppgbgS33y"/>
             <column name="locked" value="N"/>
             <column name="enabled" value="Y"/>
             <column name="created_by" value="system"/>
