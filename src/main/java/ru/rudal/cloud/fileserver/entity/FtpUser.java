@@ -60,6 +60,10 @@ public class FtpUser extends AuditTable implements org.apache.ftpserver.ftplet.U
         return  user.getPassword();
     }
 
+    public void setHomeDirectory(String homeDirectory) {
+        this.homeDirectory = homeDirectory;
+    }
+
     @Override
     public List<? extends Authority> getAuthorities() {
         return null;

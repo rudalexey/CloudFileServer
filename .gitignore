@@ -32,3 +32,22 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### FrontEnd ###
+web/node_modules
+web/package-lock.json
+web/.npmrc
+web/.DS_Store
+web/dist
+
+web/tests/e2e/videos/
+web/tests/e2e/screenshots/
+
+# local env files
+web/.env.local
+web/.env.*.local
+
+# Log files
+web/npm-debug.log*
+web/yarn-debug.log*
+web/yarn-error.log*
