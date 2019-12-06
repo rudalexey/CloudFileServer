@@ -5,13 +5,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.rudal.cloud.fileserver.entity.User;
 import ru.rudal.cloud.fileserver.security.jwt.JwtUtils;
 import ru.rudal.cloud.fileserver.web.dto.LoginRequest;
 import ru.rudal.cloud.fileserver.web.dto.UserDTO;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -29,14 +32,18 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<String> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
+        return ResponseEntity.ok(jwt);
+    }
 
-        User userDetails = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(Map.of("token",jwt,"user",new UserDTO(userDetails)));
+    @GetMapping("/userInfo")
+    public ResponseEntity getCurrentUser(Authentication authentication) {
+        User userDetails= (User) authentication.getPrincipal();
+        return ResponseEntity.ok(new UserDTO(userDetails));
     }
 }
