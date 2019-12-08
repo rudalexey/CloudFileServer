@@ -1,3 +1,5 @@
+import 'open-sans-fonts/open-sans-ng.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

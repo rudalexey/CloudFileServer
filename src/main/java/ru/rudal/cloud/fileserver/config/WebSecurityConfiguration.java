@@ -53,8 +53,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/api/auth/login").permitAll()
                 //TODO Убрать позже Swagger без авторизации
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers(HttpMethod.GET,"/swagger/index.html","/swagger/*.css","/swagger/*.js","/swagger/*.png","/swagger/*.map").permitAll()
+//                .antMatchers("/v2/api-docs").permitAll()
+//				.antMatchers("/api/v2/api-docs").permitAll()
+//                .antMatchers(HttpMethod.GET,"/swagger/index.html","/swagger/*.css","/swagger/*.js","/swagger/*.png","/swagger/*.map").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

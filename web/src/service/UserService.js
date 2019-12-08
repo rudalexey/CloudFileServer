@@ -1,27 +1,25 @@
 import axios from 'axios';
-
-const USER_API_BASE_URL = 'http://localhost:8080/api/users';
+import {BASE_API_URL} from "../common/constants";
 
 class UserService {
-s
     fetchUsers() {
-        return axios.get(USER_API_BASE_URL);
+        return axios.get(BASE_API_URL+'/users');
     }
 
     fetchUserById(userId) {
-        return axios.get(USER_API_BASE_URL + '/' + userId);
+        return axios.get(BASE_API_URL+'/users/' + userId);
     }
 
     deleteUser(userId) {
-        return axios.delete(USER_API_BASE_URL + '/' + userId);
+        return axios.delete(BASE_API_URL+'/users/' + userId);
     }
 
     addUser(user) {
-        return axios.post(""+USER_API_BASE_URL, user);
+        return axios.post(BASE_API_URL+'/users', user);
     }
 
     editUser(user) {
-        return axios.put(USER_API_BASE_URL + '/' + user.id, user);
+        return axios.put(BASE_API_URL+'/users/' + user.id, user);
     }
 
 }

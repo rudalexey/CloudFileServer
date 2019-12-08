@@ -1,12 +1,20 @@
-.app-title {
-    float: left;
+.pull-right {
+    float: right !important;
 }
 
-.app-title a {
+.pull-right > button {
+    margin-left: 6px;
+}
+
+.app-title {
+    text-align: center;
+}
+
+.app-title span {
     text-decoration: none;
-    line-height: 64px;
     font-size: 21px;
     display: inline-block;
+    text-align: center;
 }
 
 .app-title a:hover {
@@ -14,21 +22,53 @@
 }
 
 .app-header {
-    position: fixed;
-    width: 100%;
-    box-shadow: 0 2px 8px #f0f1f2;
-    z-index: 10;
-    padding: 0;
+    background-image: -moz-linear-gradient(top, #f3f3f3, #e2e2e2);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3f3f3), to(#e2e2e2));
+    background-image: -webkit-linear-gradient(top, #f3f3f3, #e2e2e2);
+    background-image: -o-linear-gradient(top, #f3f3f3, #e2e2e2);
+    background-image: linear-gradient(to bottom, #f3f3f3, #e2e2e2);
+    background-repeat: repeat-x;
+    position: relative;
+    z-index: 999;
+}
+
+.app-header > div {
+    display: inline-block;
+    vertical-align: middle;
+    height: 49px;
+    float: left;
+}
+
+.app-header > :first-child {
+    width: 220px;
 }
 
 .app-menu {
+    display: flex;
     float: right;
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0 0 0 6px;
+
 }
 
+.app-menu > ul {
+    background: none;
+}
+
+
+.dropdown-item {
+    padding: 10px 12px;
+}
+
+.dropdown-item a {
+    padding: 10px 12px;
+    margin: -10px -12px;
+}
 .app-menu > li {
     padding: 0 20px;
 }
-
 .app-menu > li > a {
     padding: 0 20px;
     margin: 0 -20px;
@@ -37,7 +77,9 @@
 .app-menu > li > a > i {
     margin-right: 0 !important;
 }
-
+.nav-icon {
+    font-size: 20px;
+}
 .profile-dropdown-menu {
     min-width: 180px;
 }
@@ -51,32 +93,4 @@
 .profile-menu .username-info {
     font-size: 14px;
     color: rgba(0,0,0,0.65);
-}
-
-.dropdown-item {
-    padding: 10px 12px;
-}
-
-.dropdown-item a {
-    padding: 10px 12px;
-    margin: -10px -12px;
-}
-
-.nav-icon {
-    font-size: 20px;
-}
-
-@media (max-width: 768px) {
-    .app-title a {
-        font-size: 20px;
-    }
-
-    .app-menu > li {
-        padding: 0 15px;
-    }
-
-    .app-menu > li > a {
-        padding: 0 15px;
-        margin: 0 -15px;
-    }
 }

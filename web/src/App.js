@@ -5,13 +5,13 @@ import Loading from './common/Loading';
 import PrivateRoute from './common/PrivateRoute';
 
 import {Layout, notification} from 'antd';
-import AppHeader from "./common/layout/AppHeader";
+import {Header} from "./common/layout";
 import NotFoundPage from './common/layout/NotFoundPage';
 import auth, {ACCESS_TOKEN} from "./service/AuthService";
 import HomePage from "./component/HomePage";
 import LoginPage from "./component/auth/LoginPage";
-
-const {Content} = Layout;
+import {stringToDateAndTime} from './common/utils/Moment'
+const { Content, Footer, Sider } = Layout;
 
 class App extends Component {
     constructor(props) {
@@ -38,7 +38,20 @@ class App extends Component {
         });
         auth.getUserInfo().then((rs) => {
             this.setState({
-                currentUser: rs.data,
+                currentUser:{
+                    login:  rs.data.login,
+                    firstName: rs.data.firstName,
+                    lastName: rs.data.lastName,
+                    langKey: rs.data.langKey,
+                    email:rs.data.email,
+                    activated: rs.data.activated,
+                    createdBy: rs.data.createdBy,
+                    createdDate: stringToDateAndTime(rs.data.createdDate),
+                    imageUrl:rs.data.imageUrl,
+                    lastModifiedBy: rs.data.lastModifiedBy,
+                    lastModifiedDate: stringToDateAndTime(rs.data.lastModifiedDate),
+                    authorities:[]
+                },
                 isAuthenticated: true,
                 isLoading: false
             });
@@ -83,22 +96,25 @@ class App extends Component {
             return <Loading/>
         }
         return (
-            <Layout className="app-container">
-                <AppHeader isAuthenticated={this.state.isAuthenticated}
-                           currentUser={this.state.currentUser}
-                           onLogout={this.handleLogout}/>
-
-                <Content className="app-content">
-                    <div className="container">
-                        <Switch>
-                            <Route path="/login"
-                                   render={(props) => <LoginPage onLogin={this.handleLogin} {...props} />}/>
-                            {<PrivateRoute authenticated={this.state.isAuthenticated} path="/"
-                                           component={HomePage} handleLogout={this.handleLogout}/>}
-                            <Route component={NotFoundPage}/>
-                        </Switch>
-                    </div>
-                </Content>
+            <Layout >
+                <Header isAuthenticated={this.state.isAuthenticated}
+                        currentUser={this.state.currentUser}
+                        onLogout={this.handleLogout}/>
+                <Layout>
+                    <Sider width="220">left sidebar</Sider>
+                    <Content className="app-content">
+                        <div className="container">
+                            <Switch>
+                                <Route path="/login"
+                                       render={(props) => <LoginPage onLogin={this.handleLogin} {...props} />}/>
+                                {<PrivateRoute authenticated={this.state.isAuthenticated} path="/"
+                                               component={HomePage} handleLogout={this.handleLogout}/>}
+                                <Route component={NotFoundPage}/>
+                            </Switch>
+                        </div>
+                    </Content>
+                </Layout>
+                <Footer>footer</Footer>
             </Layout>
         );
     }

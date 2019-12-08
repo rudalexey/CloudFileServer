@@ -1,8 +1,10 @@
 package ru.rudal.cloud.fileserver.web.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import ru.rudal.cloud.fileserver.entity.User;
 
@@ -45,11 +47,13 @@ public class UserDTO {
     private String langKey;
 
     private String createdBy;
-
+	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalDateTime createdDate;
 
     private String lastModifiedBy;
-
+	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalDateTime lastModifiedDate;
 
     private Set<String> authorities;

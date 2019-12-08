@@ -5,6 +5,9 @@ import {
 } from 'react-router-dom';
 import './AppHeader.css';
 import { Layout, Menu, Dropdown, Icon } from 'antd';
+import PropTypes from 'prop-types'
+import FullScreen from "./FullScreen";
+
 const Header = Layout.Header;
 class AppHeader extends Component {
     constructor(props) {
@@ -42,18 +45,22 @@ class AppHeader extends Component {
         }
 
         return (
-            <Header className="app-header">
-                <div className="container">
+            <Header id='header' className="app-header">
                     <div className="app-title" >
-                        <Link to="/">Cloud File Server</Link>
+                        <span>Cloud File Server</span>
                     </div>
-                    <Menu
-                        className="app-menu"
+
+
+                <div className="pull-right">
+                    <div className="app-menu">
+                        <Menu
                         mode="horizontal"
                         selectedKeys={[this.props.location.pathname]}
-                        style={{ lineHeight: '64px' }} >
+                    >
                         {menuItems}
                     </Menu>
+                    </div>
+                    <FullScreen className="pull-right" />
                 </div>
             </Header>
         );
@@ -72,6 +79,9 @@ function ProfileDropdownMenu(props) {
                 </div>
             </Menu.Item>
             <Menu.Divider />
+            <Menu.Item key="profile" className="dropdown-item">
+                <Link to={`/users/${props.currentUser.login}`}>Profile</Link>
+            </Menu.Item>
             <Menu.Item key="logout" className="dropdown-item">
                 Logout
             </Menu.Item>
@@ -92,3 +102,23 @@ function ProfileDropdownMenu(props) {
 
 
 export default withRouter(AppHeader);
+
+AppHeader.propTypes = {
+    currentUser: PropTypes.shape({
+        login: PropTypes.string,
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        langKey: PropTypes.string,
+        email:PropTypes.string,
+        activated: PropTypes.bool,
+        createdBy: PropTypes.string,
+        createdDate: PropTypes.instanceOf(Date),
+        imageUrl:PropTypes.string,
+        lastModifiedBy: PropTypes.string,
+        lastModifiedDate: PropTypes.instanceOf(Date),
+        authorities:PropTypes.arrayOf(PropTypes.string)
+    }),
+};
+ProfileDropdownMenu.propTypes = {
+    handleMenuClick: PropTypes.func,
+};
