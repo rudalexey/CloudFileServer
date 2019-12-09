@@ -1,28 +1,43 @@
-.pull-right {
-    float: right !important;
+.app-title {
+    width: 220px;
+    text-align: center;
 }
 
-.pull-right > button {
-    margin-left: 6px;
+.cfs_fullscreen > button,
+.cfs_profile > span > span {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
     border-width: 1px;
     border-style: solid;
     border-radius: 0;
     border-color: #bfbfbf;
     background: #ffffff;
     color: #404040;
-
 }
 
-.pull-right>button.ant-btn-icon-only{
-    font-size: 20px;
-    vertical-align: -2px;
-    box-shadow: none;
-}
-.app-title {
-    text-align: center;
+.cfs_fullscreen {
+    line-height: normal;
 }
 
+.cfs_profile {
+    line-height: normal;
+}
 
+.header-search > input[type="text"] {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    min-width: 220px;
+    width: 100%;
+    padding: 0 10px;
+    outline: none;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0;
+    border-color: #bfbfbf;
+    background: #ffffff;
+    color: #404040;
+}
 
 .app-header {
     background-image: -moz-linear-gradient(top, #f3f3f3, #e2e2e2);
@@ -36,88 +51,6 @@
 }
 
 .app-header > div {
-    display: inline-block;
-    vertical-align: middle;
     height: 49px;
-    float: left;
-}
-.app-header > :first-child {
-    width: 220px;
 }
 
-.app-menu {
-    display: flex;
-    float: right;
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-    margin: 0 0 0 6px;
-
-}
-
-.app-menu > ul {
-    background: none;
-}
-
-
-.dropdown-item {
-    padding: 10px 12px;
-}
-
-.dropdown-item a {
-    padding: 10px 12px;
-    margin: -10px -12px;
-}
-.app-menu > li {
-    padding: 0 20px;
-}
-.app-menu > li > a {
-    padding: 0 20px;
-    margin: 0 -20px;
-}
-
-.app-menu > li > a > i {
-    margin-right: 0 !important;
-}
-.nav-icon {
-    font-size: 20px;
-}
-.profile-dropdown-menu {
-    min-width: 180px;
-}
-
-.profile-menu .user-full-name-info {
-    font-size: 17px;
-    font-weight: 600;
-    color: rgba(0,0,0,0.85);
-}
-
-.profile-menu .username-info {
-    font-size: 14px;
-    color: rgba(0,0,0,0.65);
-}
-
-.header-search {
-    position: relative;
-
-}
-.header-search.pull-right {
-    margin-left: 6px;
-
-}
-.header-search >span > input[type="text"] {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    min-width: 200px;
-    width: 100%;
-    /*height: 30px;*/
-    padding: 0 10px;
-    outline: none;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 0;
-    border-color: #bfbfbf;
-    background: #ffffff;
-    color: #404040;
-    line-height: normal;
-}

@@ -31,7 +31,7 @@ module.exports = {
                 "@layout-footer-background": "#2a2725",
                 "@layout-footer-padding": "15px 13px 0",
                 "@font-family": '"Open Sans", Arial, Helvetica, sans-serif',
-                "@font-size-base": "13px",
+                // "@font-size-base": "13px",
                 "@layout-sider-background": "#3a3633"
             },
         }),

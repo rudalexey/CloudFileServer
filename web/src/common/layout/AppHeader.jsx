@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import './AppHeader.css';
-import {Dropdown, Icon, Input, Layout, Menu} from 'antd';
+import {Col, Dropdown, Icon, Input, Layout, Menu, Row} from 'antd';
 import PropTypes from 'prop-types'
 import FullScreen from "./FullScreen";
+import Profile from "./Profile";
 
 const {Search} = Input;
 const Header = Layout.Header;
@@ -44,11 +45,14 @@ class AppHeader extends Component {
         }
 
         return (
-            <Header id='header' className="app-header">
-                <div className="app-title">
-                    <span>Cloud File Server</span>
-                </div>
-           {/*     <div className="app-menu">
+            <Header className="app-header">
+                <Row type="flex" justify="space-between">
+                    <Col className="app-title">
+                        <span>Cloud File Server</span>
+                    </Col>
+
+                    <Col>
+                        {/*     <div className="app-menu">
                     <Menu
                         mode="horizontal"
                         selectedKeys={[this.props.location.pathname]}
@@ -56,13 +60,19 @@ class AppHeader extends Component {
                         {menuItems}
                     </Menu>
                 </div>*/}
-
-                <div className="pull-right">
-                    <div className="header-search pull-right"><Search placeholder="input search text"
-                                                                      onSearch={value => console.log(value)}/></div>
-
-                <FullScreen className="pull-right"/>
-                </div>
+                    </Col>
+                    <Row gutter={[6,6]} type="flex" justify="end" align="middle">
+                        <Col>
+                            <FullScreen/>
+                        </Col>
+                        <Col>
+                            <Search className="header-search" placeholder="input search text" onSearch={value => console.log(value)}/>
+                        </Col>
+                        <Col>
+                            <Profile/>
+                        </Col>
+                    </Row>
+                </Row>
             </Header>
         );
     }

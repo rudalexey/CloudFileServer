@@ -30,9 +30,9 @@ export default class FullScreen extends Component {
 
     render() {
         return (
-            <div className={this.props.className}>
+            <div className="cfs_fullscreen">
                 <Button htmlType="button" title="Full Screen" onClick={this.handleToggle}
-                        icon={!hasClass(document.body, 'full-screen') ? "fullscreen" : "fullscreen-exit"}/>
+                       icon={!hasClass(document.body, 'full-screen') ? "fullscreen" : "fullscreen-exit"}/>
             </div>
         );
     }
